@@ -52,8 +52,7 @@ const SideBar = () => {
           <Link key={value} className={classes.links} to="/">
             <ListItem
               onClick={() => {
-                console.log('clicked');
-                selectGenreOrCategory(value);
+                dispatch(selectGenreOrCategory(value));
               }}
               button
             >
@@ -80,7 +79,12 @@ const SideBar = () => {
         ) : (
           data.genres.map(({ id, name }) => (
             <Link key={id} className={classes.links} to="/">
-              <ListItem onClick={() => {}} button>
+              <ListItem
+                onClick={() => {
+                  dispatch(selectGenreOrCategory(id));
+                }}
+                button
+              >
                 <ListItemIcon>
                   {console.log(genreIcons[name.toLowerCase()])}
                   <img
