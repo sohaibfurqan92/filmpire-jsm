@@ -35,6 +35,9 @@ const SideBar = () => {
 
   const { data, error, isFetching } = useGetGenresQuery();
   const dispatch = useDispatch();
+  const { genreIdOrCategoryName } = useSelector(
+    (state) => state.currentGenreOrCategory
+  );
 
   return (
     <>
@@ -86,7 +89,6 @@ const SideBar = () => {
                 button
               >
                 <ListItemIcon>
-                  {console.log(genreIcons[name.toLowerCase()])}
                   <img
                     src={genreIcons[name.toLowerCase()]}
                     alt={name}

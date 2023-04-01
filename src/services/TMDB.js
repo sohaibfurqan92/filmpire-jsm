@@ -1,9 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 const tmdbKey = process.env.REACT_APP_TMDB_KEY;
-const page = 1;
-
-// https://api.themoviedb.org/3/genre/movie/list?api_key=<<api_key>>&language=en-US
 
 export const tmdbApi = createApi({
   reducerPath: 'tmdbApi',
@@ -15,7 +12,25 @@ export const tmdbApi = createApi({
     }),
     // get movies by [TYPE]
     getMovies: builder.query({
-      query: () => `movie/popular?api_key=${tmdbKey}&page=${page}`,
+      query: ({ genreIdOrCategoryName, page }) => {
+        if (
+          genreIdOrCategoryName &&
+          typeof genreIdOrCategoryName === 'string'
+        ) {
+          // get movies by category
+          return `movie/${genreIdOrCategoryName}?api_key=${tmdbKey}&page=${page}`;
+        }
+
+        if (
+          genreIdOrCategoryName &&
+          typeof genreIdOrCategoryName === 'number'
+        ) {
+          // get movies by genre
+          return `discover/movie?with_genres=${genreIdOrCategoryName}&api_key=${tmdbKey}&page=${page}`;
+        }
+        // get popular movies
+        return `movie/popular?api_key=${tmdbKey}&page=${page}`;
+      },
     }),
   }),
 });
